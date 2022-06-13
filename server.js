@@ -68,19 +68,20 @@ app.post("/people", async (req, res) => {
     res.json({ error: "something went wrong - check console" });
   }
 });
+
 // Update
 app.put("/people/:id", async (req, res) => {
   try {
-    const updatedPerson = await People.findByIdAndUpdate(
-      req.params.id,
-      req.body,
-      { new: true }
+    // send all people
+    res.json(
+      await People.findByIdAndUpdate(req.params.id, req.body, { new: true })
     );
   } catch (error) {
-    console.log("error: ", error);
-    res.json({ error: "something went wrong - check console" });
+    //send error
+    res.status(400).json(error);
   }
 });
+
 // Delete
 app.delete("/people/:id", async (req, res) => {
   try {
