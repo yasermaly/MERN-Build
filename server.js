@@ -69,8 +69,27 @@ app.post("/people", async (req, res) => {
   }
 });
 // Update
-
+app.put("/people/:id", async (req, res) => {
+  try {
+    const updatedPerson = await People.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      { new: true }
+    );
+  } catch (error) {
+    console.log("error: ", error);
+    res.json({ error: "something went wrong - check console" });
+  }
+});
 // Delete
+app.delete("/people/:id", async (req, res) => {
+  try {
+    res.json(await People.findByIdAndDelete(req.params.id));
+  } catch (error) {
+    console.log("error: ", error);
+    res.json({ error: "something went wrong - check console" });
+  }
+});
 
 // Tell express to listen
 app.listen(PORT, () => {
